@@ -1,7 +1,5 @@
 node_modules/
 temporary screenshots/
-npm-debug.log*
-.DS_Store
 .env
 *.db
-.deploy-secrets.local
+.git/
