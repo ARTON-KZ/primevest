@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PrimeVest — put your crypto to work</title>
+  <meta name="description" content="PrimeVest turns your crypto deposits into a portfolio that compounds around the clock. Fund in minutes, then watch your balance climb in real time." />
+  <meta name="theme-color" content="#050b16" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" type="image/svg+xml" href="icons/icon.svg" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/app.css" />
+  <link rel="stylesheet" href="css/landing.css" />
+</head>
+<body>
+  <!-- ── Nav ─────────────────────────────────────────────────────────────── -->
+  <header class="nav" id="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="/">Prime<span>Vest</span></a>
+      <nav class="nav-links" id="navLinks">
+        <a href="#how">How it works</a>
+        <a href="#plans">Plans</a>
+        <a href="#why">Why us</a>
+        <div class="nav-cta-mobile">
+          <a class="btn btn-ghost" href="login.html">Log in</a>
+          <a class="btn btn-primary" href="register.html">Get started</a>
+        </div>
+      </nav>
+      <div class="nav-cta">
+        <a class="btn btn-ghost" href="login.html">Log in</a>
+        <a class="btn btn-primary" href="register.html">Get started</a>
+      </div>
+      <button class="nav-burger" id="navBurger" aria-label="Menu"><span></span><span></span></button>
+    </div>
+  </header>
+
+  <!-- ── Hero ────────────────────────────────────────────────────────────── -->
+  <section class="hero">
+    <div class="hero-glow" aria-hidden="true"></div>
+    <div class="container hero-inner">
+      <div class="hero-copy">
+        <span class="eyebrow">Crypto-native investing</span>
+        <h1 class="hero-title">Put your crypto<br>to work — and<br>watch it <em>grow.</em></h1>
+        <p class="hero-sub">PrimeVest turns your deposit into a portfolio that compounds around the clock. Fund your account in minutes, then watch your balance climb in real time.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary btn-lg" href="register.html">Create free account →</a>
+          <a class="btn btn-outline btn-lg" href="#how">How it works</a>
+        </div>
+        <div class="hero-trust">
+          <span class="pulse-dot" aria-hidden="true"></span>
+          <p id="proofLine"><strong>$4.2M</strong> paid out to members this month</p>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <!-- Picture 1 — client image placeholder -->
+        <div class="img-slot hero-img" data-placeholder="hero">
+          <div class="img-slot-label"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="3" stroke="currentColor" stroke-width="1.6"/><circle cx="8.5" cy="8.5" r="1.8" fill="currentColor"/><path d="M21 15l-5-4-7 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Image placeholder</span><small>Replace with your hero image · ~640×560</small></div>
+        </div>
+
+        <!-- Floating live portfolio card (the signature) -->
+        <div class="live-card">
+          <div class="live-card-top">
+            <span class="badge green"><span class="dot"></span>Live</span>
+            <span class="muted live-card-label">Portfolio balance</span>
+          </div>
+          <div class="live-balance mono" id="demoBalance">$0.00</div>
+          <div class="live-meta">
+            <span class="green mono" id="demoGain">+$0.00</span>
+            <span class="muted">today</span>
+          </div>
+          <svg class="spark" viewBox="0 0 280 70" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <linearGradient id="sg" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="rgba(52,224,127,0.35)"/>
+                <stop offset="100%" stop-color="rgba(52,224,127,0)"/>
+              </linearGradient>
+            </defs>
+            <path class="spark-fill" d="M0,55 L20,52 L45,48 L70,50 L95,40 L120,42 L145,32 L170,34 L195,24 L220,20 L245,14 L280,8 L280,70 L0,70 Z" fill="url(#sg)"/>
+            <path class="spark-line" d="M0,55 L20,52 L45,48 L70,50 L95,40 L120,42 L145,32 L170,34 L195,24 L220,20 L245,14 L280,8" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Live market ticker ──────────────────────────────────────────────── -->
+  <section class="ticker" aria-hidden="true">
+    <div class="ticker-track" id="tickerTrack"></div>
+  </section>
+
+  <!-- ── How it works ────────────────────────────────────────────────────── -->
+  <section class="section" id="how">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">How it works</span>
+        <h2 class="section-title">Three steps to a <em>growing</em> balance</h2>
+      </div>
+      <div class="steps">
+        <div class="step card reveal">
+          <span class="step-num mono">01</span>
+          <h3>Create your account</h3>
+          <p>Sign up with your name, email and country. It takes about a minute — no paperwork.</p>
+        </div>
+        <div class="step card reveal" style="transition-delay:0.08s">
+          <span class="step-num mono">02</span>
+          <h3>Deposit crypto</h3>
+          <p>Send BTC, ETH or USDT to your secure address. Funds are credited the moment they confirm.</p>
+        </div>
+        <div class="step card reveal" style="transition-delay:0.16s">
+          <span class="step-num mono">03</span>
+          <h3>Watch it grow</h3>
+          <p>Your balance compounds automatically, around the clock. Withdraw to your wallet anytime.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Feature band (Picture 2) ────────────────────────────────────────── -->
+  <section class="section" id="why">
+    <div class="container feature">
+      <div class="feature-copy reveal">
+        <span class="eyebrow">Always working</span>
+        <h2 class="section-title">Your portfolio never <em>sleeps</em></h2>
+        <p class="feature-sub">Once you're funded, PrimeVest puts your capital to work continuously. Your balance ticks upward in real time — not once a month, but every moment your money is invested.</p>
+        <ul class="feature-list">
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.2 4.2L19 7" stroke="var(--green)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg> Real-time compounding on your full balance</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.2 4.2L19 7" stroke="var(--green)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg> Deposit and withdraw in BTC, ETH or USDT</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.2 4.2L19 7" stroke="var(--green)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg> Track every move from one clean dashboard</li>
+        </ul>
+        <a class="btn btn-primary" href="register.html">Start growing →</a>
+      </div>
+      <!-- Picture 2 — client image placeholder -->
+      <div class="img-slot feature-img reveal" data-placeholder="feature" style="transition-delay:0.1s">
+        <div class="img-slot-label"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="3" stroke="currentColor" stroke-width="1.6"/><circle cx="8.5" cy="8.5" r="1.8" fill="currentColor"/><path d="M21 15l-5-4-7 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Image placeholder</span><small>Replace with your feature image · ~560×460</small></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Plans ───────────────────────────────────────────────────────────── -->
+  <section class="section" id="plans">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Investment plans</span>
+        <h2 class="section-title">Pick a plan that fits your goals</h2>
+      </div>
+      <div class="plans">
+        <div class="plan card reveal">
+          <h3 class="plan-name">Starter</h3>
+          <div class="plan-rate"><span class="mono">3.5%</span><small>/ week</small></div>
+          <p class="plan-min mono">from $50</p>
+          <ul class="plan-feats">
+            <li>BTC · ETH · USDT deposits</li>
+            <li>Real-time balance growth</li>
+            <li>Withdraw anytime</li>
+          </ul>
+          <a class="btn btn-outline btn-block" href="register.html">Choose Starter</a>
+        </div>
+        <div class="plan card featured reveal" style="transition-delay:0.08s">
+          <span class="plan-tag">Most popular</span>
+          <h3 class="plan-name">Growth</h3>
+          <div class="plan-rate"><span class="mono">6%</span><small>/ week</small></div>
+          <p class="plan-min mono">from $1,000</p>
+          <ul class="plan-feats">
+            <li>Everything in Starter</li>
+            <li>Priority withdrawals</li>
+            <li>Dedicated support</li>
+          </ul>
+          <a class="btn btn-primary btn-block" href="register.html">Choose Growth</a>
+        </div>
+        <div class="plan card reveal" style="transition-delay:0.16s">
+          <h3 class="plan-name">Platinum</h3>
+          <div class="plan-rate"><span class="mono">9%</span><small>/ week</small></div>
+          <p class="plan-min mono">from $10,000</p>
+          <ul class="plan-feats">
+            <li>Everything in Growth</li>
+            <li>Account manager</li>
+            <li>Custom strategy</li>
+          </ul>
+          <a class="btn btn-outline btn-block" href="register.html">Choose Platinum</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CTA + newsletter ────────────────────────────────────────────────── -->
+  <section class="section">
+    <div class="container">
+      <div class="cta card">
+        <div class="cta-glow" aria-hidden="true"></div>
+        <h2 class="cta-title">Ready to watch your money <em>grow</em>?</h2>
+        <p class="cta-sub">Join thousands of investors already compounding on PrimeVest.</p>
+        <form class="cta-form" id="newsletter">
+          <input class="input" type="email" placeholder="you@email.com" aria-label="Email" required />
+          <button class="btn btn-primary" type="submit">Get started</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Footer ──────────────────────────────────────────────────────────── -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <a class="brand" href="/">Prime<span>Vest</span></a>
+        <p class="muted">Crypto-native investing that compounds around the clock.</p>
+      </div>
+      <div class="footer-cols">
+        <div><h4>Product</h4><a href="#how">How it works</a><a href="#plans">Plans</a><a href="register.html">Sign up</a></div>
+        <div><h4>Account</h4><a href="login.html">Log in</a><a href="register.html">Register</a></div>
+        <div><h4>Legal</h4><a href="#">Terms</a><a href="#">Privacy</a></div>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <p class="muted">© <span id="year"></span> PrimeVest. Investing involves risk; past performance does not guarantee future results.</p>
+    </div>
+  </footer>
+
+  <script src="js/config.js"></script>
+  <script src="js/landing.js"></script>
+  <script src="js/alerts-data.js" defer></script>
+  <script src="js/alerts.js" defer></script>
+  <script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');</script>
+</body>
+</html>

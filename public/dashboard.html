@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Dashboard — PrimeVest</title>
+  <meta name="theme-color" content="#050b16" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" type="image/svg+xml" href="icons/icon.svg" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/app.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+</head>
+<body class="dash-body">
+  <div class="dash">
+    <!-- Desktop sidebar -->
+    <aside class="side">
+      <a class="brand" href="/">Prime<span>Vest</span></a>
+      <nav class="side-nav" id="sideNav">
+        <button class="nav-item" data-tab="dashboard"><span class="ic" data-ic="home"></span>Dashboard</button>
+        <button class="nav-item" data-tab="account"><span class="ic" data-ic="user"></span>Account</button>
+        <button class="nav-item" data-tab="trade"><span class="ic" data-ic="trade"></span>Trade</button>
+        <button class="nav-item" data-tab="deposit"><span class="ic" data-ic="deposit"></span>Deposit</button>
+        <button class="nav-item" data-tab="withdraw"><span class="ic" data-ic="withdraw"></span>Withdraw</button>
+      </nav>
+      <button class="nav-item logout" id="logoutDesktop"><span class="ic" data-ic="logout"></span>Log out</button>
+    </aside>
+
+    <main class="dash-main">
+      <header class="dash-top">
+        <div>
+          <p class="dash-hello" id="hello">Welcome back</p>
+          <h1 class="dash-page-title" id="pageTitle">Dashboard</h1>
+        </div>
+        <div class="dash-top-right">
+          <span class="badge" id="curBadge">USD</span>
+          <button class="icon-btn" id="logoutMobile" aria-label="Log out"><span class="ic" data-ic="logout"></span></button>
+        </div>
+      </header>
+
+      <!-- ── Dashboard panel ──────────────────────────────────────────── -->
+      <section class="panel" data-panel="dashboard">
+        <div class="balance-card card">
+          <div class="balance-glow" aria-hidden="true"></div>
+          <div class="balance-top">
+            <span class="muted">Available balance</span>
+            <span class="badge green" id="earnBadge"><span class="dot"></span>Growing</span>
+          </div>
+          <div class="balance-amount mono" id="balanceAmount">$0.00</div>
+          <div class="balance-stats">
+            <div><span class="muted">Total profit</span><strong class="mono green" id="profitAmount">$0.00</strong></div>
+            <div><span class="muted">Total deposited</span><strong class="mono" id="depositAmount">$0.00</strong></div>
+          </div>
+          <div class="balance-actions">
+            <button class="btn btn-primary" data-tab="deposit">Deposit</button>
+            <button class="btn btn-outline" data-tab="withdraw">Withdraw</button>
+          </div>
+        </div>
+
+        <div class="section-row">
+          <h2 class="block-title">Recent activity</h2>
+        </div>
+        <div class="card list" id="activityList">
+          <div class="empty">Loading activity…</div>
+        </div>
+      </section>
+
+      <!-- ── Account panel ────────────────────────────────────────────── -->
+      <section class="panel hidden" data-panel="account">
+        <div class="card profile-card">
+          <div class="profile-head">
+            <div class="avatar" id="avatar">JA</div>
+            <div>
+              <h2 id="profileName">—</h2>
+              <p class="muted" id="profileEmail">—</p>
+            </div>
+          </div>
+          <dl class="profile-grid">
+            <div><dt>Country</dt><dd id="pCountry">—</dd></div>
+            <div><dt>Phone</dt><dd id="pPhone" class="mono">—</dd></div>
+            <div><dt>Currency</dt><dd id="pCurrency">—</dd></div>
+            <div><dt>Member since</dt><dd id="pSince">—</dd></div>
+            <div><dt>Account status</dt><dd id="pStatus">—</dd></div>
+          </dl>
+          <button class="btn btn-outline btn-danger" id="logoutAccount">Log out of this device</button>
+        </div>
+      </section>
+
+      <!-- ── Trade panel ──────────────────────────────────────────────── -->
+      <section class="panel hidden" data-panel="trade">
+        <div class="card markets" id="markets"></div>
+        <div class="section-row"><h2 class="block-title">Your trade history</h2></div>
+        <div class="card list" id="tradeList"><div class="empty">Loading…</div></div>
+      </section>
+
+      <!-- ── Deposit panel ────────────────────────────────────────────── -->
+      <section class="panel hidden" data-panel="deposit">
+        <div class="card pay-card">
+          <h2 class="block-title">Deposit crypto</h2>
+          <p class="muted block-sub">Pick a coin, send any amount to the address below, then confirm. Your balance is credited once the payment is received.</p>
+          <div class="coin-tabs" id="coinTabs">
+            <button class="coin-tab active" data-coin="BTC">BTC</button>
+            <button class="coin-tab" data-coin="ETH">ETH</button>
+            <button class="coin-tab" data-coin="USDT">USDT</button>
+          </div>
+          <div class="addr-block">
+            <div class="qr" id="qr"></div>
+            <div class="addr-detail">
+              <span class="muted">Your <strong id="coinLabel">Bitcoin</strong> deposit address <em id="netLabel"></em></span>
+              <div class="addr-row">
+                <code class="addr mono" id="depAddress">—</code>
+                <button class="btn btn-outline btn-sm" id="copyAddr">Copy</button>
+              </div>
+              <p class="field-hint" id="addrHint"></p>
+            </div>
+          </div>
+          <form id="depositForm" class="pay-form">
+            <div class="field">
+              <label for="depAmount">Amount (USD value)</label>
+              <input class="input mono" id="depAmount" type="number" min="1" step="0.01" placeholder="500.00" required />
+              <p class="field-hint" id="minDepHint"></p>
+            </div>
+            <button class="btn btn-primary btn-block" type="submit" id="depBtn">I’ve sent the payment</button>
+          </form>
+        </div>
+      </section>
+
+      <!-- ── Withdraw panel ───────────────────────────────────────────── -->
+      <section class="panel hidden" data-panel="withdraw">
+        <div class="card pay-card">
+          <h2 class="block-title">Withdraw funds</h2>
+          <p class="muted block-sub">Available to withdraw: <strong class="mono green" id="availBalance">$0.00</strong></p>
+          <form id="withdrawForm" class="pay-form">
+            <div class="field">
+              <label for="wdAmount">Amount (USD value)</label>
+              <input class="input mono" id="wdAmount" type="number" min="1" step="0.01" placeholder="250.00" required />
+              <p class="field-hint" id="minWdHint"></p>
+            </div>
+            <div class="field">
+              <label for="wdCoin">Receive as</label>
+              <select class="select" id="wdCoin"><option value="BTC">Bitcoin (BTC)</option><option value="ETH">Ethereum (ETH)</option><option value="USDT">Tether (USDT · TRC20)</option></select>
+            </div>
+            <div class="field">
+              <label for="wdAddress">Your wallet address</label>
+              <input class="input mono" id="wdAddress" type="text" placeholder="Destination wallet address" required />
+            </div>
+            <button class="btn btn-primary btn-block" type="submit" id="wdBtn">Request withdrawal</button>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <!-- Mobile bottom nav (matches brand_assets/dash.jpg) -->
+    <nav class="botnav" id="botNav">
+      <button class="bot-item" data-tab="dashboard"><span class="ic" data-ic="home"></span><small>Dashboard</small></button>
+      <button class="bot-item" data-tab="account"><span class="ic" data-ic="user"></span><small>Account</small></button>
+      <button class="bot-item" data-tab="trade"><span class="ic" data-ic="trade"></span><small>Trade</small></button>
+      <button class="bot-item" data-tab="deposit"><span class="ic" data-ic="deposit"></span><small>Deposit</small></button>
+      <button class="bot-item" data-tab="withdraw"><span class="ic" data-ic="withdraw"></span><small>Withdraw</small></button>
+    </nav>
+
+    <button class="fab" id="supportFab" aria-label="Support"><span class="ic" data-ic="chat"></span></button>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/icons.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script src="js/alerts-data.js" defer></script>
+  <script src="js/alerts.js" defer></script>
+  <script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');</script>
+</body>
+</html>

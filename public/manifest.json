@@ -1,0 +1,21 @@
+{
+  "name": "PrimeVest — crypto investing",
+  "short_name": "PrimeVest",
+  "description": "Put your crypto to work. Deposits compound around the clock; watch your balance grow in real time.",
+  "id": "/",
+  "start_url": "/dashboard.html",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#050b16",
+  "theme_color": "#050b16",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Deposit", "url": "/dashboard.html#deposit", "description": "Make a deposit" },
+    { "name": "Withdraw", "url": "/dashboard.html#withdraw", "description": "Request a withdrawal" }
+  ]
+}

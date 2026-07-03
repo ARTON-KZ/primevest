@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — PrimeVest</title>
+  <meta name="theme-color" content="#050b16" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" type="image/svg+xml" href="icons/icon.svg" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/app.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+  <link rel="stylesheet" href="css/admin.css" />
+</head>
+<body class="dash-body">
+  <div class="dash">
+    <aside class="side">
+      <a class="brand" href="/">Prime<span>Vest</span></a>
+      <nav class="side-nav" id="sideNav">
+        <button class="nav-item" data-tab="users"><span class="ic" data-ic="users"></span>Users</button>
+        <button class="nav-item" data-tab="transactions"><span class="ic" data-ic="wallet"></span>Transactions <span class="nav-count hidden" id="pendCount">0</span></button>
+        <button class="nav-item" data-tab="settings"><span class="ic" data-ic="settings"></span>Settings</button>
+        <button class="nav-item" data-tab="admins"><span class="ic" data-ic="user"></span>Admins</button>
+      </nav>
+      <button class="nav-item logout" id="logoutBtn"><span class="ic" data-ic="logout"></span>Log out</button>
+    </aside>
+
+    <main class="dash-main admin-main">
+      <header class="dash-top">
+        <div>
+          <p class="dash-hello">Administrator</p>
+          <h1 class="dash-page-title" id="pageTitle">Users</h1>
+        </div>
+        <span class="badge" id="adminEmail">admin</span>
+      </header>
+
+      <!-- Users -->
+      <section class="panel" data-panel="users">
+        <div class="stats-grid" id="statsGrid"></div>
+        <div class="section-row"><h2 class="block-title">All users</h2><input class="input search" id="userSearch" placeholder="Search name or email…" /></div>
+        <div class="card table-wrap">
+          <table class="tbl" id="usersTable">
+            <thead><tr><th>Name</th><th>Email</th><th>Country</th><th>Balance</th><th>Auto-earn</th><th>Status</th></tr></thead>
+            <tbody id="usersBody"><tr><td colspan="6" class="empty">Loading…</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Transactions -->
+      <section class="panel hidden" data-panel="transactions">
+        <div class="section-row"><h2 class="block-title">Pending approvals</h2></div>
+        <div class="card list" id="pendingList"><div class="empty">Loading…</div></div>
+        <div class="section-row" style="margin-top:28px"><h2 class="block-title">All transactions</h2></div>
+        <div class="card table-wrap">
+          <table class="tbl"><thead><tr><th>User</th><th>Type</th><th>Coin</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead>
+          <tbody id="allTxnBody"><tr><td colspan="6" class="empty">Loading…</td></tr></tbody></table>
+        </div>
+      </section>
+
+      <!-- Settings -->
+      <section class="panel hidden" data-panel="settings">
+        <div class="card pay-card settings-card">
+          <h2 class="block-title">Crypto deposit addresses</h2>
+          <p class="muted block-sub">These addresses are shown to users on the deposit screen. Update them anytime.</p>
+          <form id="settingsForm">
+            <div class="field"><label>Bitcoin (BTC) address</label><input class="input mono" id="s_addr_btc" placeholder="bc1…" /></div>
+            <div class="field"><label>Ethereum (ETH) address</label><input class="input mono" id="s_addr_eth" placeholder="0x…" /></div>
+            <div class="field-row">
+              <div class="field"><label>Tether (USDT) address</label><input class="input mono" id="s_addr_usdt" placeholder="T…" /></div>
+              <div class="field"><label>USDT network</label><input class="input" id="s_usdt_network" placeholder="TRC20" /></div>
+            </div>
+            <div class="field-row">
+              <div class="field"><label>Minimum deposit (USD)</label><input class="input mono" id="s_min_deposit" type="number" /></div>
+              <div class="field"><label>Minimum withdrawal (USD)</label><input class="input mono" id="s_min_withdraw" type="number" /></div>
+            </div>
+            <div class="field"><label>Support email</label><input class="input" id="s_support_email" type="email" /></div>
+            <button class="btn btn-primary" id="saveSettings" type="submit">Save settings</button>
+          </form>
+        </div>
+      </section>
+
+      <!-- Admins -->
+      <section class="panel hidden" data-panel="admins">
+        <div class="section-row"><h2 class="block-title">Administrators</h2></div>
+        <div class="card list" id="adminsList"><div class="empty">Loading…</div></div>
+        <div class="card pay-card" style="margin-top:24px">
+          <h2 class="block-title">Add administrator</h2>
+          <form id="addAdminForm" class="pay-form">
+            <div class="field"><label>Name</label><input class="input" id="a_name" required /></div>
+            <div class="field"><label>Email</label><input class="input" id="a_email" type="email" required /></div>
+            <div class="field"><label>Password</label><input class="input" id="a_password" type="password" placeholder="At least 8 characters" required /></div>
+            <button class="btn btn-primary" type="submit">Create administrator</button>
+          </form>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- User detail drawer -->
+  <div class="drawer-overlay hidden" id="drawer">
+    <div class="drawer" id="drawerInner"></div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/icons.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
