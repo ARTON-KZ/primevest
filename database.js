@@ -138,15 +138,26 @@ async function initDatabase() {
   save();
 
   // ── Seed admin ───────────────────────────────────────────────────────────────
+  const ADMIN_EMAIL = (process.env.ADMIN_EMAIL || 'admin@primevest.com').toLowerCase();
+  const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'Admin@1234';
   const adminRes = db.exec(`SELECT COUNT(*) AS c FROM users WHERE role = 'admin'`);
   if ((adminRes[0]?.values[0][0] ?? 0) === 0) {
-    const hash = bcrypt.hashSync(process.env.ADMIN_PASSWORD || 'Admin@1234', 12);
     db.run(
       `INSERT INTO users (name, email, password, role, status) VALUES (?, ?, ?, 'admin', 'approved')`,
-      ['Administrator', (process.env.ADMIN_EMAIL || 'admin@primevest.com').toLowerCase(), hash]
+      ['Administrator', ADMIN_EMAIL, bcrypt.hashSync(ADMIN_PASSWORD, 12)]
     );
     save();
-    console.log(`[DB] Admin created: ${process.env.ADMIN_EMAIL || 'admin@primevest.com'}`);
+    console.log(`[DB] Admin created: ${ADMIN_EMAIL}`);
+  } else {
+    // The env var stays authoritative for the seed admin account, so the
+    // password can always be reset from the host's Variables panel.
+    const seedRes = db.exec(`SELECT id, password FROM users WHERE email = '${ADMIN_EMAIL.replace(/'/g, "''")}' AND role = 'admin'`);
+    const row = seedRes[0]?.values[0];
+    if (row && !bcrypt.compareSync(ADMIN_PASSWORD, row[1])) {
+      db.run(`UPDATE users SET password = ? WHERE id = ?`, [bcrypt.hashSync(ADMIN_PASSWORD, 12), row[0]]);
+      save();
+      console.log(`[DB] Admin password synced from ADMIN_PASSWORD env`);
+    }
   }
 
   // ── Seed default settings (crypto addresses + limits) ────────────────────────
