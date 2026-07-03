@@ -46,7 +46,7 @@
 .drawer-close { background: var(--navy-800); border: 1px solid var(--line); color: var(--text-2); width: 36px; height: 36px; border-radius: 10px; cursor: pointer; font-size: 18px; line-height: 1; }
 .drawer-close:hover { color: #fff; }
 
-.drawer-bal { display: flex; gap: 22px; margin: 16px 0 22px; padding: 16px 0; border-top: 1px solid var(--line-soft); border-bottom: 1px solid var(--line-soft); }
+.drawer-bal { display: flex; flex-wrap: wrap; gap: 16px 22px; margin: 16px 0 22px; padding: 16px 0; border-top: 1px solid var(--line-soft); border-bottom: 1px solid var(--line-soft); }
 .drawer-bal div { display: flex; flex-direction: column; gap: 3px; }
 .drawer-bal .l { font-size: 12px; color: var(--muted); }
 .drawer-bal .v { font-family: var(--font-mono); font-size: 18px; font-weight: 600; color: #fff; }

@@ -87,6 +87,19 @@
 }
 .img-slot::before { top: 14px; left: 14px; border-width: 1.5px 0 0 1.5px; border-top-left-radius: 6px; }
 .img-slot::after { bottom: 14px; right: 14px; border-width: 0 1.5px 1.5px 0; border-bottom-right-radius: 6px; }
+/* Real image fills the plate; corner ticks stay on top */
+.img-slot.has-img { border-style: solid; }
+.img-slot.has-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.img-slot.has-img::before, .img-slot.has-img::after { z-index: 3; }
+.img-treat {
+  position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  background: linear-gradient(to top, rgba(0,0,0,0.6), transparent 55%);
+}
+.img-treat::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(25,163,95,0.5), rgba(5,11,22,0.55));
+  mix-blend-mode: multiply;
+}
 .img-slot-label { text-align: center; display: grid; justify-items: center; gap: 6px; padding: 24px; }
 .img-slot-label span { font-size: 14px; font-weight: 600; color: var(--muted); }
 .img-slot-label small { font-size: 12px; color: var(--faint); font-family: var(--font-mono); }
@@ -104,8 +117,8 @@
 
 /* Floating live portfolio card — the signature */
 .live-card {
-  position: absolute; left: -28px; bottom: -34px; width: 300px;
-  background: linear-gradient(180deg, rgba(21,35,59,0.9), rgba(13,22,38,0.96));
+  position: absolute; left: -28px; bottom: -34px; width: 300px; z-index: 4;
+  background: linear-gradient(180deg, #16243c, #0c1526);
   backdrop-filter: blur(8px);
   border: 1px solid rgba(52,224,127,0.22);
   border-radius: var(--r-lg);

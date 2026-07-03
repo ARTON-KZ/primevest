@@ -6,7 +6,7 @@ const { requireAdmin } = require('../middleware/auth');
 
 const router = express.Router();
 
-const FIELD_PROP = { balance: 'balance', profit: 'profit', deposit: 'deposit_total' };
+const FIELD_PROP = { balance: 'balance', profit: 'profit', deposit: 'deposit_total', locked: 'locked' };
 const SETTING_KEYS = ['addr_btc', 'addr_eth', 'addr_usdt', 'usdt_network', 'min_deposit', 'min_withdraw', 'support_email'];
 
 const randomPassword = () =>
@@ -85,7 +85,7 @@ router.patch('/users/:id/balance', requireAdmin, (req, res) => {
   const { stmts, adjustField } = req.app.locals;
   const id = parseInt(req.params.id);
   let { field = 'balance', action, amount } = req.body;
-  if (!FIELD_PROP[field]) return res.status(400).json({ error: 'Invalid field (balance, profit, deposit)' });
+  if (!FIELD_PROP[field]) return res.status(400).json({ error: 'Invalid field (balance, profit, deposit, locked)' });
   if (!['increase', 'reduce'].includes(action)) return res.status(400).json({ error: 'action must be increase or reduce' });
   const amt = parseFloat(amount);
   if (!amt || amt <= 0) return res.status(400).json({ error: 'Amount must be a positive number' });

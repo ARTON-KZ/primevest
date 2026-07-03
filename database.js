@@ -47,6 +47,7 @@ const MONEY_FIELDS = {
   balance: 'balance',
   profit:  'profit',
   deposit: 'deposit_total',
+  locked:  'locked',
 };
 
 // Single-value settable columns (whitelist).
@@ -79,6 +80,7 @@ async function initDatabase() {
       balance       REAL DEFAULT 0.0,
       profit        REAL DEFAULT 0.0,
       deposit_total REAL DEFAULT 0.0,
+      locked        REAL DEFAULT 0.0,
       -- Auto-earnings ("auto-increment"): credit earn_amount every
       -- earn_interval_sec while earn_active = 1. Accrual is computed lazily.
       earn_amount       REAL DEFAULT 0.0,
@@ -91,6 +93,13 @@ async function initDatabase() {
       created_at    TEXT DEFAULT (datetime('now'))
     )
   `);
+
+  // Migrations: add columns to databases created before these features existed.
+  // Each is wrapped because ALTER throws if the column already exists.
+  [`ALTER TABLE users ADD COLUMN locked REAL DEFAULT 0.0`].forEach(sql => {
+    try { db.run(sql); } catch (e) { /* column exists */ }
+  });
+  save();
 
   db.run(`
     CREATE TABLE IF NOT EXISTS transactions (
@@ -176,7 +185,7 @@ async function initDatabase() {
   });
   save();
 
-  const PUBLIC_COLS = `id, name, email, country, phone, currency, balance, profit, deposit_total,
+  const PUBLIC_COLS = `id, name, email, country, phone, currency, balance, profit, deposit_total, locked,
                        earn_amount, earn_interval_sec, earn_active, earn_last_at,
                        blocked, role, status, created_at`;
 

@@ -17,7 +17,7 @@ function userPayload(u) {
   return {
     id: u.id, name: u.name, email: u.email, role: u.role,
     country: u.country, phone: u.phone, currency: u.currency,
-    balance: u.balance, profit: u.profit, deposit_total: u.deposit_total,
+    balance: u.balance, profit: u.profit, deposit_total: u.deposit_total, locked: u.locked,
     earn_amount: u.earn_amount, earn_interval_sec: u.earn_interval_sec,
     earn_active: u.earn_active, earn_last_at: u.earn_last_at,
     status: u.status,

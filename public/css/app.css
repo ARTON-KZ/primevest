@@ -269,30 +269,43 @@ p { margin: 0; }
   pointer-events: none;
 }
 #proof-host.show { opacity: 1; transform: none; }
+/* Metallic orange proof bubble — bright specular gradient + sweeping sheen */
 .proof-card {
+  position: relative; overflow: hidden;
   display: flex; align-items: center; gap: 12px;
-  background: linear-gradient(180deg, rgba(21,35,59,0.92), rgba(13,22,38,0.94));
-  backdrop-filter: blur(10px);
-  border: 1px solid var(--line);
+  background: linear-gradient(165deg, #ffd28d 0%, #ffa438 24%, #ff7d05 52%, #e26000 78%, #ff9633 100%);
+  border: 1px solid #ffc06a;
   border-radius: var(--r-lg);
   padding: 12px 16px 12px 12px;
-  box-shadow: 0 20px 50px -18px rgba(0,0,0,0.8), 0 0 0 1px rgba(52,224,127,0.05);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.55),
+    inset 0 -1px 0 rgba(120,45,0,0.35),
+    0 14px 40px -12px rgba(255,125,5,0.55),
+    0 20px 50px -18px rgba(0,0,0,0.7);
 }
+/* The "swift" metal sheen sweeping across */
+.proof-card::after {
+  content: ""; position: absolute; top: -20%; bottom: -20%; width: 46%;
+  background: linear-gradient(105deg, transparent, rgba(255,255,255,0.38), transparent);
+  transform: skewX(-18deg);
+  animation: proof-sheen 2.6s cubic-bezier(.3,.6,.4,1) infinite;
+  pointer-events: none;
+}
+@keyframes proof-sheen { 0% { left: -55%; } 60%, 100% { left: 125%; } }
 .proof-ic {
   width: 40px; height: 40px; flex-shrink: 0; border-radius: 12px;
   display: grid; place-items: center;
-  background: rgba(52,224,127,0.1); color: var(--green-bright);
-  border: 1px solid rgba(52,224,127,0.25);
+  background: rgba(60,22,0,0.28); color: #fff;
+  border: 1px solid rgba(255,255,255,0.35);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.25);
 }
-.proof-card.wd .proof-ic { background: rgba(87,161,255,0.1); color: var(--blue); border-color: rgba(87,161,255,0.25); }
-.proof-card.rei .proof-ic { background: rgba(255,194,75,0.09); color: var(--amber); border-color: rgba(255,194,75,0.22); }
 .proof-ic svg { width: 20px; height: 20px; }
-.proof-line { font-size: 13.5px; color: var(--text-2); line-height: 1.45; }
-.proof-line strong { color: var(--text); font-weight: 600; }
-.proof-amt { font-family: var(--font-mono); color: var(--green-bright) !important; }
-.proof-coin { font-family: var(--font-mono); font-size: 11px; color: var(--muted); border: 1px solid var(--line); border-radius: 6px; padding: 1px 5px; margin-left: 2px; }
-.proof-meta { font-size: 11.5px; color: var(--muted); margin-top: 3px; }
-.proof-check { color: var(--green); }
+.proof-line { font-size: 13.5px; color: #4a2000; line-height: 1.45; position: relative; }
+.proof-line strong { color: #2b1200; font-weight: 700; }
+.proof-amt { font-family: var(--font-mono); color: #fff !important; text-shadow: 0 1px 2px rgba(120,45,0,0.55); }
+.proof-coin { font-family: var(--font-mono); font-size: 11px; color: #2b1200; border: 1px solid rgba(60,22,0,0.35); border-radius: 6px; padding: 1px 5px; margin-left: 2px; background: rgba(255,255,255,0.22); }
+.proof-meta { font-size: 11.5px; color: #6b3300; margin-top: 3px; position: relative; }
+.proof-check { color: #2b1200; font-weight: 600; }
 
 /* ── Scroll-reveal (hidden state only when JS confirms with .rv on <html>,
       so content is never lost without JS; transform/opacity only) ─────────── */

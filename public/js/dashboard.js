@@ -49,6 +49,7 @@
     $('hello').textContent = 'Welcome back, ' + (profile.name || '').split(' ')[0];
     $('profitAmount').textContent = money(profile.profit, currency);
     $('depositAmount').textContent = money(profile.deposit_total, currency);
+    $('lockedAmount').textContent = money(profile.locked, currency);
     $('availBalance').textContent = money(profile.balance, currency);
     renderAccount();
     setupTick(profile);
@@ -226,10 +227,63 @@
   ['logoutDesktop', 'logoutMobile', 'logoutAccount'].forEach(id => { const el = $(id); if (el) el.addEventListener('click', logout); });
   $('supportFab').addEventListener('click', () => toast('Need help? Email ' + (wallet?.support_email || 'support@primevest.com')));
 
+  // ── Live markets: TradingView chart + crypto converter ──────────────────────
+  function initChart() {
+    const wrap = $('tvChart');
+    if (!wrap || wrap.dataset.ready) return;
+    wrap.dataset.ready = '1';
+    const s = document.createElement('script');
+    s.src = 'https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js';
+    s.async = true;
+    s.innerHTML = JSON.stringify({
+      autosize: true,
+      symbol: 'BINANCE:BTCUSDT',
+      interval: '60',
+      timezone: 'Etc/UTC',
+      theme: 'dark',
+      style: '1',
+      locale: 'en',
+      backgroundColor: 'rgba(13, 22, 38, 1)',
+      gridColor: 'rgba(29, 44, 71, 0.4)',
+      hide_top_toolbar: false,
+      allow_symbol_change: true,
+      save_image: false,
+      calendar: false,
+    });
+    wrap.appendChild(s);
+  }
+
+  const RATES = { USD: 1, BTC: 67432, ETH: 3518, USDT: 1 }; // fallback, refreshed live below
+  async function refreshRates() {
+    try {
+      const r = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,tether&vs_currencies=usd');
+      const j = await r.json();
+      if (j.bitcoin?.usd) RATES.BTC = j.bitcoin.usd;
+      if (j.ethereum?.usd) RATES.ETH = j.ethereum.usd;
+      if (j.tether?.usd) RATES.USDT = j.tether.usd;
+    } catch { /* keep fallback rates */ }
+    convert();
+  }
+  function convert() {
+    const amt = parseFloat($('convAmount').value) || 0;
+    const from = $('convFrom').value, to = $('convTo').value;
+    const usd = amt * RATES[from];
+    const out = usd / RATES[to];
+    $('convResult').value = out ? out.toLocaleString('en-US', { maximumFractionDigits: out < 1 ? 8 : 2 }) : '0';
+    $('convRate').textContent = `1 ${from} ≈ ${(RATES[from] / RATES[to]).toLocaleString('en-US', { maximumFractionDigits: RATES[from] / RATES[to] < 1 ? 8 : 2 })} ${to}`;
+  }
+  ['convAmount', 'convFrom', 'convTo'].forEach(id => { const el = $(id); if (el) { el.addEventListener('input', convert); el.addEventListener('change', convert); } });
+  const swapBtn = $('convSwap');
+  if (swapBtn) swapBtn.addEventListener('click', () => {
+    const f = $('convFrom').value; $('convFrom').value = $('convTo').value; $('convTo').value = f; convert();
+  });
+
   // Re-sync the balance with the server periodically (keeps the tick accurate).
   setInterval(() => { loadProfile().catch(() => {}); }, 25000);
 
   // Init
   switchTab('dashboard');
   loadProfile().then(renderActivity).catch(e => toast(e.message, 'error'));
+  initChart();
+  refreshRates();
 })();

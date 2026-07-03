@@ -101,12 +101,13 @@
         <div><span class="l">Balance</span><span class="v">${money(u.balance, u.currency)}</span></div>
         <div><span class="l">Profit</span><span class="v">${money(u.profit, u.currency)}</span></div>
         <div><span class="l">Deposited</span><span class="v">${money(u.deposit_total, u.currency)}</span></div>
+        <div><span class="l">🔒 Locked</span><span class="v" style="color:var(--amber)">${money(u.locked, u.currency)}</span></div>
       </div>
 
       <div class="drawer-block">
         <h3>Credit / debit</h3>
         <div class="inline-form">
-          <select class="select" id="dField"><option value="balance">Balance</option><option value="profit">Profit</option><option value="deposit">Deposit total</option></select>
+          <select class="select" id="dField"><option value="balance">Balance</option><option value="profit">Profit</option><option value="deposit">Deposit total</option><option value="locked">Locked balance</option></select>
           <select class="select" id="dAction"><option value="increase">Add</option><option value="reduce">Remove</option></select>
           <input class="input mono" id="dAmount" type="number" placeholder="0.00" style="max-width:120px" />
           <button class="btn btn-primary btn-sm" id="dApplyBal">Apply</button>
@@ -188,7 +189,12 @@
   }
   function refreshDrawerBal(u) {
     const vals = drawer.querySelectorAll('.drawer-bal .v');
-    if (vals.length === 3) { vals[0].textContent = money(u.balance, u.currency); vals[1].textContent = money(u.profit, u.currency); vals[2].textContent = money(u.deposit_total, u.currency); }
+    if (vals.length >= 4) {
+      vals[0].textContent = money(u.balance, u.currency);
+      vals[1].textContent = money(u.profit, u.currency);
+      vals[2].textContent = money(u.deposit_total, u.currency);
+      vals[3].textContent = money(u.locked, u.currency);
+    }
   }
 
   async function accountAction(id, act) {
