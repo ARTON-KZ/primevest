@@ -58,27 +58,42 @@ router.post('/deposit', requireAuth, (req, res) => {
   });
 });
 
-// POST /api/wallet/withdraw — user requests a payout to their own wallet.
+// POST /api/wallet/withdraw — user requests a payout to their own crypto
+// wallet (method: "crypto") or their bank account (method: "bank").
 router.post('/withdraw', requireAuth, (req, res) => {
   const { stmts } = req.app.locals;
-  const coin = String(req.body.coin || '').toUpperCase();
+  const method = String(req.body.method || 'crypto').toLowerCase();
   const amount = parseFloat(req.body.amount);
-  const address = String(req.body.address || '').trim();
   const s = settingsMap(stmts);
   const minWithdraw = Number(s.min_withdraw) || 50;
 
-  if (!COINS[coin])         return res.status(400).json({ error: 'Choose a supported coin (BTC, ETH or USDT)' });
   if (!amount || amount <= 0) return res.status(400).json({ error: 'Enter a valid amount' });
   if (amount < minWithdraw) return res.status(400).json({ error: `Minimum withdrawal is $${minWithdraw}` });
-  if (address.length < 12)  return res.status(400).json({ error: 'Enter a valid wallet address' });
+
+  let coin, destination;
+  if (method === 'bank') {
+    const bankName = String(req.body.bank_name || '').trim();
+    const accountName = String(req.body.account_name || '').trim();
+    const accountNumber = String(req.body.account_number || '').trim();
+    if (bankName.length < 2)      return res.status(400).json({ error: 'Enter your bank name' });
+    if (accountName.length < 2)   return res.status(400).json({ error: 'Enter the account holder name' });
+    if (accountNumber.length < 5) return res.status(400).json({ error: 'Enter a valid account number' });
+    coin = 'BANK';
+    destination = `${bankName} · ${accountName} · ${accountNumber}`;
+  } else {
+    coin = String(req.body.coin || '').toUpperCase();
+    destination = String(req.body.address || '').trim();
+    if (!COINS[coin])            return res.status(400).json({ error: 'Choose a supported coin (BTC, ETH or USDT)' });
+    if (destination.length < 12) return res.status(400).json({ error: 'Enter a valid wallet address' });
+  }
 
   const user = stmts.getUserById.get(req.user.id);
   if (amount > (user.balance || 0)) {
     return res.status(400).json({ error: `Insufficient balance (available $${(user.balance || 0).toFixed(2)})` });
   }
 
-  const result = stmts.insertTransaction.run(req.user.id, 'withdrawal', coin, amount, address, 'pending',
-    'Awaiting admin approval');
+  const result = stmts.insertTransaction.run(req.user.id, 'withdrawal', coin, amount, destination, 'pending',
+    method === 'bank' ? 'Bank transfer — awaiting admin approval' : 'Awaiting admin approval');
   res.status(201).json({
     message: 'Withdrawal requested. You’ll be notified once it’s processed.',
     transaction: stmts.getTransactionById.get(result.lastInsertRowid),

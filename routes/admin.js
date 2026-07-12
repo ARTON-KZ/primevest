@@ -72,7 +72,8 @@ router.post('/users', requireAdmin, (req, res) => {
   const generated = !password;
   if (generated) password = randomPassword();
   const result = stmts.insertUser.run(name.trim(), email, bcrypt.hashSync(password, 12),
-    country || null, phone || null, (currency || 'USD').toUpperCase().slice(0, 4), 'approved');
+    country || null, phone || null, req.body.whatsapp || null, req.body.address || null,
+    req.body.office_location || null, (currency || 'USD').toUpperCase().slice(0, 4), 'approved');
   res.status(201).json({
     message: 'User created',
     user: stmts.getUserById.get(result.lastInsertRowid),

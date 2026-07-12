@@ -58,7 +58,15 @@
   }
 
   // ── Formatting ───────────────────────────────────────────────────────────────
-  const SYMBOLS = { USD: '$', EUR: '€', GBP: '£', NGN: '₦', CAD: 'C$', AUD: 'A$', INR: '₹', JPY: '¥', ZAR: 'R', BRL: 'R$' };
+  const SYMBOLS = {
+    USD: '$', EUR: '€', GBP: '£', NGN: '₦', CAD: 'C$', AUD: 'A$', INR: '₹', JPY: '¥', ZAR: 'R', BRL: 'R$',
+    ZMW: 'ZK', MWK: 'MK', MYR: 'RM', TZS: 'TSh', UGX: 'USh', RWF: 'FRw', ETB: 'Br', XAF: 'FCFA', XOF: 'CFA',
+    BWP: 'P', NAD: 'N$', MZN: 'MT', AOA: 'Kz', CDF: 'FC', EGP: 'E£', MAD: 'DH', TND: 'DT', LKR: 'Rs', NPR: 'Rs',
+    BDT: '৳', PKR: 'Rs', PHP: '₱', THB: '฿', VND: '₫', IDR: 'Rp', KRW: '₩', MXN: 'MX$', ARS: 'AR$', CLP: 'CL$',
+    COP: 'CO$', PEN: 'S/', TRY: '₺', SAR: 'SR', QAR: 'QR', KWD: 'KD', BHD: 'BD', OMR: 'OMR', JOD: 'JD',
+    ILS: '₪', PLN: 'zł', CZK: 'Kč', RON: 'lei', DKK: 'kr', SEK: 'kr', NOK: 'kr', RUB: '₽', UAH: '₴',
+    CHF: 'CHF', SGD: 'S$', HKD: 'HK$', AED: 'AED', KES: 'KSh', GHS: '₵', CNY: '¥',
+  };
   function symbol(cur) { return SYMBOLS[(cur || 'USD').toUpperCase()] || '$'; }
   function money(n, cur) {
     const v = Number(n || 0);

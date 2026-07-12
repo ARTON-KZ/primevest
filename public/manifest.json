@@ -1,6 +1,6 @@
 {
-  "name": "PrimeVest — crypto investing",
-  "short_name": "PrimeVest",
+  "name": "TradingFXVault — crypto investing",
+  "short_name": "TradingFXVault",
   "description": "Put your crypto to work. Deposits compound around the clock; watch your balance grow in real time.",
   "id": "/",
   "start_url": "/dashboard.html",

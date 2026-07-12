@@ -63,6 +63,9 @@
     $('profileEmail').textContent = p.email;
     $('pCountry').textContent = p.country || '—';
     $('pPhone').textContent = p.phone || '—';
+    $('pWhatsapp').textContent = p.whatsapp || '—';
+    $('pAddress').textContent = p.address || '—';
+    $('pOffice').textContent = p.office_location || '—';
     $('pCurrency').textContent = p.currency || 'USD';
     $('pSince').textContent = (p.created_at || '').split(' ')[0] || '—';
     $('pStatus').innerHTML = '<span class="badge green"><span class="dot"></span>Active</span>';
@@ -204,19 +207,34 @@
     btn.disabled = false;
   });
 
+  // Withdraw method toggle (crypto wallet ⇄ bank account)
+  let wdMethod = 'crypto';
+  document.querySelectorAll('#wdMethodTabs .coin-tab').forEach(b => b.addEventListener('click', () => {
+    wdMethod = b.dataset.method;
+    document.querySelectorAll('#wdMethodTabs .coin-tab').forEach(x => x.classList.toggle('active', x === b));
+    $('wdCryptoFields').classList.toggle('hidden', wdMethod !== 'crypto');
+    $('wdBankFields').classList.toggle('hidden', wdMethod !== 'bank');
+  }));
+
   // Withdraw submit
   $('withdrawForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     const btn = $('wdBtn');
     btn.disabled = true;
     try {
-      const r = await api.post('/api/wallet/withdraw', {
-        coin: $('wdCoin').value,
-        amount: parseFloat($('wdAmount').value),
-        address: $('wdAddress').value.trim(),
-      });
+      const payload = { method: wdMethod, amount: parseFloat($('wdAmount').value) };
+      if (wdMethod === 'bank') {
+        payload.bank_name = $('wdBankName').value.trim();
+        payload.account_name = $('wdAccountName').value.trim();
+        payload.account_number = $('wdAccountNumber').value.trim();
+      } else {
+        payload.coin = $('wdCoin').value;
+        payload.address = $('wdAddress').value.trim();
+      }
+      const r = await api.post('/api/wallet/withdraw', payload);
       toast(r.message);
       $('wdAmount').value = ''; $('wdAddress').value = '';
+      $('wdBankName').value = ''; $('wdAccountName').value = ''; $('wdAccountNumber').value = '';
       renderActivity();
     } catch (err) { toast(err.message, 'error'); }
     btn.disabled = false;
@@ -225,7 +243,7 @@
   // Logout + support
   function logout() { Auth.clear(); location.href = 'login.html'; }
   ['logoutDesktop', 'logoutMobile', 'logoutAccount'].forEach(id => { const el = $(id); if (el) el.addEventListener('click', logout); });
-  $('supportFab').addEventListener('click', () => toast('Need help? Email ' + (wallet?.support_email || 'support@primevest.com')));
+  $('supportFab').addEventListener('click', () => toast('Need help? Email ' + (wallet?.support_email || 'support@tradingfxvault.com')));
 
   // ── Live markets: TradingView chart + crypto converter ──────────────────────
   function initChart() {

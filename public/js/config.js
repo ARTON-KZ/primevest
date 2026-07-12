@@ -12,5 +12,5 @@
   window.RACK.API = sameOrigin || BACKEND.indexOf('PLACEHOLDER') !== -1
     ? window.location.origin
     : BACKEND;
-  window.RACK.BRAND = 'PrimeVest';
+  window.RACK.BRAND = 'TradingFXVault';
 })();

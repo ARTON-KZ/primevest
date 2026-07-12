@@ -262,8 +262,8 @@ p { margin: 0; }
 
 /* ── Social-proof alert popups ────────────────────────────────────────────── */
 #proof-host {
-  position: fixed; z-index: 90; left: 18px; bottom: 18px;
-  max-width: min(360px, calc(100vw - 36px));
+  position: fixed; z-index: 90; left: 14px; bottom: 14px;
+  max-width: min(290px, calc(100vw - 90px));
   opacity: 0; transform: translateY(14px) scale(0.98);
   transition: opacity 0.3s cubic-bezier(.2,.8,.2,1), transform 0.3s cubic-bezier(.2,.8,.2,1);
   pointer-events: none;
@@ -275,8 +275,8 @@ p { margin: 0; }
   display: flex; align-items: center; gap: 12px;
   background: linear-gradient(165deg, #ffd28d 0%, #ffa438 24%, #ff7d05 52%, #e26000 78%, #ff9633 100%);
   border: 1px solid #ffc06a;
-  border-radius: var(--r-lg);
-  padding: 12px 16px 12px 12px;
+  border-radius: var(--r);
+  padding: 8px 12px 8px 8px;
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,0.55),
     inset 0 -1px 0 rgba(120,45,0,0.35),
@@ -293,18 +293,18 @@ p { margin: 0; }
 }
 @keyframes proof-sheen { 0% { left: -55%; } 60%, 100% { left: 125%; } }
 .proof-ic {
-  width: 40px; height: 40px; flex-shrink: 0; border-radius: 12px;
+  width: 30px; height: 30px; flex-shrink: 0; border-radius: 9px;
   display: grid; place-items: center;
   background: rgba(60,22,0,0.28); color: #fff;
   border: 1px solid rgba(255,255,255,0.35);
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.25);
 }
-.proof-ic svg { width: 20px; height: 20px; }
-.proof-line { font-size: 13.5px; color: #4a2000; line-height: 1.45; position: relative; }
+.proof-ic svg { width: 15px; height: 15px; }
+.proof-line { font-size: 12px; color: #4a2000; line-height: 1.4; position: relative; }
 .proof-line strong { color: #2b1200; font-weight: 700; }
 .proof-amt { font-family: var(--font-mono); color: #fff !important; text-shadow: 0 1px 2px rgba(120,45,0,0.55); }
-.proof-coin { font-family: var(--font-mono); font-size: 11px; color: #2b1200; border: 1px solid rgba(60,22,0,0.35); border-radius: 6px; padding: 1px 5px; margin-left: 2px; background: rgba(255,255,255,0.22); }
-.proof-meta { font-size: 11.5px; color: #6b3300; margin-top: 3px; position: relative; }
+.proof-coin { font-family: var(--font-mono); font-size: 10px; color: #2b1200; border: 1px solid rgba(60,22,0,0.35); border-radius: 5px; padding: 0 4px; margin-left: 2px; background: rgba(255,255,255,0.22); }
+.proof-meta { font-size: 10.5px; color: #6b3300; margin-top: 2px; position: relative; }
 .proof-check { color: #2b1200; font-weight: 600; }
 
 /* ── Scroll-reveal (hidden state only when JS confirms with .rv on <html>,

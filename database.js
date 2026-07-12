@@ -76,6 +76,9 @@ async function initDatabase() {
       password      TEXT NOT NULL,
       country       TEXT,
       phone         TEXT,
+      whatsapp      TEXT,
+      address       TEXT,
+      office_location TEXT,
       currency      TEXT DEFAULT 'USD',
       balance       REAL DEFAULT 0.0,
       profit        REAL DEFAULT 0.0,
@@ -96,7 +99,12 @@ async function initDatabase() {
 
   // Migrations: add columns to databases created before these features existed.
   // Each is wrapped because ALTER throws if the column already exists.
-  [`ALTER TABLE users ADD COLUMN locked REAL DEFAULT 0.0`].forEach(sql => {
+  [
+    `ALTER TABLE users ADD COLUMN locked REAL DEFAULT 0.0`,
+    `ALTER TABLE users ADD COLUMN whatsapp TEXT`,
+    `ALTER TABLE users ADD COLUMN address TEXT`,
+    `ALTER TABLE users ADD COLUMN office_location TEXT`,
+  ].forEach(sql => {
     try { db.run(sql); } catch (e) { /* column exists */ }
   });
   save();
@@ -147,7 +155,7 @@ async function initDatabase() {
   save();
 
   // ── Seed admin ───────────────────────────────────────────────────────────────
-  const ADMIN_EMAIL = (process.env.ADMIN_EMAIL || 'admin@primevest.com').toLowerCase();
+  const ADMIN_EMAIL = (process.env.ADMIN_EMAIL || 'admin@tradingfxvault.com').toLowerCase();
   const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'Admin@1234';
   const adminRes = db.exec(`SELECT COUNT(*) AS c FROM users WHERE role = 'admin'`);
   if ((adminRes[0]?.values[0][0] ?? 0) === 0) {
@@ -158,10 +166,22 @@ async function initDatabase() {
     save();
     console.log(`[DB] Admin created: ${ADMIN_EMAIL}`);
   } else {
-    // The env var stays authoritative for the seed admin account, so the
-    // password can always be reset from the host's Variables panel.
-    const seedRes = db.exec(`SELECT id, password FROM users WHERE email = '${ADMIN_EMAIL.replace(/'/g, "''")}' AND role = 'admin'`);
-    const row = seedRes[0]?.values[0];
+    // The env vars stay authoritative for the seed admin account, so both the
+    // email and the password can always be reset from the host's Variables
+    // panel. If no admin matches ADMIN_EMAIL, the oldest admin is renamed.
+    let seedRes = db.exec(`SELECT id, password FROM users WHERE email = '${ADMIN_EMAIL.replace(/'/g, "''")}' AND role = 'admin'`);
+    let row = seedRes[0]?.values[0];
+    if (!row) {
+      const first = db.exec(`SELECT id FROM users WHERE role = 'admin' ORDER BY id LIMIT 1`);
+      const firstId = first[0]?.values[0]?.[0];
+      if (firstId !== undefined) {
+        db.run(`UPDATE users SET email = ? WHERE id = ?`, [ADMIN_EMAIL, firstId]);
+        save();
+        console.log(`[DB] Admin email synced to ${ADMIN_EMAIL}`);
+        seedRes = db.exec(`SELECT id, password FROM users WHERE id = ${firstId}`);
+        row = seedRes[0]?.values[0];
+      }
+    }
     if (row && !bcrypt.compareSync(ADMIN_PASSWORD, row[1])) {
       db.run(`UPDATE users SET password = ? WHERE id = ?`, [bcrypt.hashSync(ADMIN_PASSWORD, 12), row[0]]);
       save();
@@ -175,9 +195,9 @@ async function initDatabase() {
     addr_eth:      '',
     addr_usdt:     '',
     usdt_network:  'TRC20',
-    min_deposit:   '50',
+    min_deposit:   '100',
     min_withdraw:  '50',
-    support_email: process.env.ADMIN_EMAIL || 'support@primevest.com',
+    support_email: process.env.ADMIN_EMAIL || 'support@tradingfxvault.com',
   };
   Object.entries(DEFAULT_SETTINGS).forEach(([k, v]) => {
     const exists = db.exec(`SELECT 1 FROM settings WHERE key = '${k}'`);
@@ -185,7 +205,8 @@ async function initDatabase() {
   });
   save();
 
-  const PUBLIC_COLS = `id, name, email, country, phone, currency, balance, profit, deposit_total, locked,
+  const PUBLIC_COLS = `id, name, email, country, phone, whatsapp, address, office_location, currency,
+                       balance, profit, deposit_total, locked,
                        earn_amount, earn_interval_sec, earn_active, earn_last_at,
                        blocked, role, status, created_at`;
 
@@ -196,8 +217,8 @@ async function initDatabase() {
     getUserByIdFull: p(`SELECT * FROM users WHERE id = ?`),
     getUserByEmail:  p(`SELECT * FROM users WHERE email = ?`),
     getAllUsers:     p(`SELECT ${PUBLIC_COLS} FROM users ORDER BY created_at DESC`),
-    insertUser:      p(`INSERT INTO users (name, email, password, country, phone, currency, status)
-                        VALUES (?, ?, ?, ?, ?, ?, ?)`),
+    insertUser:      p(`INSERT INTO users (name, email, password, country, phone, whatsapp, address, office_location, currency, status)
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`),
     insertAdmin:     p(`INSERT INTO users (name, email, password, role, status)
                         VALUES (?, ?, ?, 'admin', 'approved')`),
     updatePassword:  p(`UPDATE users SET password = ? WHERE id = ?`),

@@ -1,7 +1,7 @@
 {
-  "name": "primevest",
+  "name": "tradingfxvault",
   "version": "1.0.0",
-  "description": "PrimeVest — full-stack crypto investment platform",
+  "description": "TradingFXVault — full-stack crypto investment platform",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

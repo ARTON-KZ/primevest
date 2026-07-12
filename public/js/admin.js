@@ -94,7 +94,9 @@
     const d = decompose(u.earn_interval_sec || 3600);
     $('drawerInner').innerHTML = `
       <div class="drawer-head">
-        <div><h2>${esc(u.name)}</h2><p class="muted">${esc(u.email)}</p><p class="muted">${esc(u.country || '')} · ${esc(u.phone || '')}</p></div>
+        <div><h2>${esc(u.name)}</h2><p class="muted">${esc(u.email)}</p><p class="muted">${esc(u.country || '')} · ${esc(u.phone || '')}</p>
+        ${u.whatsapp ? `<p class="muted">WhatsApp: ${esc(u.whatsapp)}</p>` : ''}
+        ${u.address ? `<p class="muted">${esc(u.address)}${u.office_location ? ' · ' + esc(u.office_location) : ''}</p>` : ''}</div>
         <button class="drawer-close" id="dClose">×</button>
       </div>
       <div class="drawer-bal">

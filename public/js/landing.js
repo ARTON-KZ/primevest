@@ -1,6 +1,7 @@
 // Landing page interactions: mobile nav, ticking demo balance, newsletter.
 (function () {
-  document.getElementById('year').textContent = new Date().getFullYear();
+  const yearEl = document.getElementById('year');
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
 
   // Mobile nav toggle
   const burger = document.getElementById('navBurger');
@@ -36,7 +37,9 @@
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     const email = form.querySelector('input').value.trim();
-    location.href = 'register.html' + (email ? ('?email=' + encodeURIComponent(email)) : '');
+    // Login-first flow: new visitors land on the login page and can move to
+    // signup from there. The email travels along for prefill.
+    location.href = 'login.html' + (email ? ('?email=' + encodeURIComponent(email)) : '');
   });
 
   // ── Live market ticker (marquee, duplicated for a seamless loop) ────────────

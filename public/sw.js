@@ -1,7 +1,7 @@
-/* PrimeVest service worker — installable app shell.
+/* TradingFXVault service worker — installable app shell.
    Strategy: network-first for pages & API (fresh data always wins),
    stale-while-revalidate for same-origin static assets (css/js/icons). */
-const VERSION = 'pv-v1';
+const VERSION = 'tfv-v2';
 const SHELL = [
   '/', '/index.html', '/login.html', '/register.html', '/dashboard.html',
   '/css/app.css', '/css/landing.css', '/css/auth.css', '/css/dashboard.css',

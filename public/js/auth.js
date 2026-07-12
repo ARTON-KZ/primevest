@@ -8,7 +8,9 @@
     return;
   }
 
-  const CURRENCIES = ['USD','EUR','GBP','CAD','AUD','NGN','ZAR','INR','JPY','CNY','CHF','SGD','HKD','AED','BRL','SEK','NOK','KES','GHS'];
+  const CURRENCIES = ['USD','EUR','GBP','CAD','AUD','NGN','ZAR','INR','JPY','CNY','CHF','SGD','HKD','AED','BRL','SEK','NOK','KES','GHS',
+    'ZMW','MWK','MYR','TZS','UGX','RWF','ETB','XAF','XOF','BWP','NAD','MZN','AOA','ZWL','CDF','EGP','MAD','TND','LKR','NPR','BDT','PKR',
+    'PHP','THB','VND','IDR','KRW','MXN','ARS','CLP','COP','PEN','TRY','SAR','QAR','KWD','BHD','OMR','JOD','ILS','PLN','CZK','RON','DKK','RUB','UAH'];
 
   function showError(msg) {
     const box = document.getElementById('formError');
@@ -65,6 +67,9 @@
         password: document.getElementById('password').value,
         country: countrySel.value,
         phone,
+        whatsapp: document.getElementById('whatsapp').value.trim(),
+        address: document.getElementById('address').value.trim(),
+        office_location: document.getElementById('officeLocation').value.trim(),
         currency: currencySel.value,
       };
       if (!payload.country) return showError('Please select your country.');
@@ -82,6 +87,9 @@
   // ── Login ────────────────────────────────────────────────────────────────────
   const loginForm = document.getElementById('loginForm');
   if (loginForm) {
+    // Prefill from the landing-page handoff (?email=).
+    const qEmail = new URLSearchParams(location.search).get('email');
+    if (qEmail) document.getElementById('email').value = qEmail;
     loginForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const btn = document.getElementById('submitBtn');

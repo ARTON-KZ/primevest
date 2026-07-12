@@ -49,7 +49,7 @@ async function main() {
 
   const PORT = process.env.PORT || 3001;
   app.listen(PORT, '0.0.0.0', () => {
-    console.log(`\n  PrimeVest`);
+    console.log(`\n  TradingFXVault`);
     console.log(`  Listening on http://localhost:${PORT}`);
     console.log(`  DB: ${process.env.DB_PATH || 'primevest.db (local)'}`);
     if (process.env.ADMIN_EMAIL) console.log(`  Admin: ${process.env.ADMIN_EMAIL}`);

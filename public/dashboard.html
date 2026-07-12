@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Dashboard — PrimeVest</title>
+  <title>Dashboard — TradingFXVault</title>
   <meta name="theme-color" content="#050b16" />
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" type="image/svg+xml" href="icons/icon.svg" />
@@ -20,7 +20,7 @@
   <div class="dash">
     <!-- Desktop sidebar -->
     <aside class="side">
-      <a class="brand" href="/">Prime<span>Vest</span></a>
+      <a class="brand" href="/">TradingFX<span>Vault</span></a>
       <nav class="side-nav" id="sideNav">
         <button class="nav-item" data-tab="dashboard"><span class="ic" data-ic="home"></span>Dashboard</button>
         <button class="nav-item" data-tab="account"><span class="ic" data-ic="user"></span>Account</button>
@@ -118,6 +118,9 @@
           <dl class="profile-grid">
             <div><dt>Country</dt><dd id="pCountry">—</dd></div>
             <div><dt>Phone</dt><dd id="pPhone" class="mono">—</dd></div>
+            <div><dt>WhatsApp</dt><dd id="pWhatsapp" class="mono">—</dd></div>
+            <div><dt>Address</dt><dd id="pAddress">—</dd></div>
+            <div><dt>Office location</dt><dd id="pOffice">—</dd></div>
             <div><dt>Currency</dt><dd id="pCurrency">—</dd></div>
             <div><dt>Member since</dt><dd id="pSince">—</dd></div>
             <div><dt>Account status</dt><dd id="pStatus">—</dd></div>
@@ -170,19 +173,39 @@
         <div class="card pay-card">
           <h2 class="block-title">Withdraw funds</h2>
           <p class="muted block-sub">Available to withdraw: <strong class="mono green" id="availBalance">$0.00</strong></p>
+          <div class="coin-tabs" id="wdMethodTabs">
+            <button class="coin-tab active" data-method="crypto" type="button">Crypto wallet</button>
+            <button class="coin-tab" data-method="bank" type="button">Bank account</button>
+          </div>
           <form id="withdrawForm" class="pay-form">
             <div class="field">
               <label for="wdAmount">Amount (USD value)</label>
               <input class="input mono" id="wdAmount" type="number" min="1" step="0.01" placeholder="250.00" required />
               <p class="field-hint" id="minWdHint"></p>
             </div>
-            <div class="field">
-              <label for="wdCoin">Receive as</label>
-              <select class="select" id="wdCoin"><option value="BTC">Bitcoin (BTC)</option><option value="ETH">Ethereum (ETH)</option><option value="USDT">Tether (USDT · TRC20)</option></select>
+            <div id="wdCryptoFields">
+              <div class="field">
+                <label for="wdCoin">Receive as</label>
+                <select class="select" id="wdCoin"><option value="BTC">Bitcoin (BTC)</option><option value="ETH">Ethereum (ETH)</option><option value="USDT">Tether (USDT · TRC20)</option></select>
+              </div>
+              <div class="field">
+                <label for="wdAddress">Your wallet address</label>
+                <input class="input mono" id="wdAddress" type="text" placeholder="Destination wallet address" />
+              </div>
             </div>
-            <div class="field">
-              <label for="wdAddress">Your wallet address</label>
-              <input class="input mono" id="wdAddress" type="text" placeholder="Destination wallet address" required />
+            <div id="wdBankFields" class="hidden">
+              <div class="field">
+                <label for="wdBankName">Bank name</label>
+                <input class="input" id="wdBankName" type="text" placeholder="e.g. First National Bank" />
+              </div>
+              <div class="field">
+                <label for="wdAccountName">Account holder name</label>
+                <input class="input" id="wdAccountName" type="text" placeholder="Name on the account" />
+              </div>
+              <div class="field">
+                <label for="wdAccountNumber">Account number</label>
+                <input class="input mono" id="wdAccountNumber" type="text" placeholder="Account / IBAN number" />
+              </div>
             </div>
             <button class="btn btn-primary btn-block" type="submit" id="wdBtn">Request withdrawal</button>
           </form>
