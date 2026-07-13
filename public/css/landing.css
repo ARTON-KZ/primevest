@@ -26,11 +26,11 @@
   content: ""; position: absolute; inset: 0; z-index: 0;
   background:
     /* directional scrim: darkest under the copy, opens up over the floor */
-    linear-gradient(100deg, rgba(5,11,22,0.97) 12%, rgba(5,11,22,0.86) 38%, rgba(5,11,22,0.42) 68%, rgba(5,11,22,0.62) 100%),
+    linear-gradient(100deg, rgba(5,11,22,0.88) 10%, rgba(5,11,22,0.62) 36%, rgba(5,11,22,0.16) 66%, rgba(5,11,22,0.3) 100%),
     /* melt into the page top & the ticker below */
-    linear-gradient(to top, #050b16 2%, rgba(5,11,22,0.12) 30%, rgba(5,11,22,0.55) 96%),
+    linear-gradient(to top, #050b16 2%, rgba(5,11,22,0.05) 26%, rgba(5,11,22,0.35) 96%),
     /* brand color grade over the photo */
-    linear-gradient(115deg, rgba(16,88,54,0.55), rgba(8,36,58,0.5)),
+    linear-gradient(115deg, rgba(16,88,54,0.38), rgba(8,36,58,0.32)),
     url('../img/lander.jpg') center 30% / cover no-repeat;
   background-blend-mode: normal, normal, multiply, normal;
   transform-origin: 60% 40%;
@@ -315,13 +315,15 @@ a.foot-contact { color: var(--green-bright); }
   .cta { padding: 40px 22px; }
   .section { padding: 60px 0; }
   .hero { padding: 48px 0 80px; }
-  /* Copy fills the viewport width on mobile — even, heavier scrim */
+  /* Copy fills the viewport width on mobile — lighter scrim, photo visible */
   .hero::before {
     background:
-      linear-gradient(to top, #050b16 4%, rgba(5,11,22,0.74) 42%, rgba(5,11,22,0.84) 100%),
-      linear-gradient(rgba(5,11,22,0.52), rgba(5,11,22,0.52)),
-      linear-gradient(115deg, rgba(16,88,54,0.55), rgba(8,36,58,0.5)),
+      linear-gradient(to top, #050b16 4%, rgba(5,11,22,0.5) 40%, rgba(5,11,22,0.62) 100%),
+      linear-gradient(rgba(5,11,22,0.28), rgba(5,11,22,0.28)),
+      linear-gradient(115deg, rgba(16,88,54,0.4), rgba(8,36,58,0.34)),
       url('../img/lander.jpg') center 24% / cover no-repeat;
     background-blend-mode: normal, normal, multiply, normal;
   }
+  /* Text shadow earns back the legibility the lighter scrim gives up */
+  .hero-title, .hero-sub { text-shadow: 0 2px 18px rgba(2,6,12,0.85), 0 1px 3px rgba(2,6,12,0.9); }
 }

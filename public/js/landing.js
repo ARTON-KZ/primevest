@@ -88,6 +88,11 @@
         wa.textContent = 'WhatsApp: ' + c.whatsapp;
         wa.href = 'https://wa.me/' + c.whatsapp.replace(/[^\d]/g, '');
       }
+      const em = document.getElementById('footEmail');
+      if (em && c.email) {
+        em.textContent = c.email;
+        em.href = 'mailto:' + c.email;
+      }
     })
     .catch(() => { /* keep the defaults baked into the HTML */ });
 

@@ -241,7 +241,7 @@
   // Logout + support
   function logout() { Auth.clear(); location.href = 'login.html'; }
   ['logoutDesktop', 'logoutMobile', 'logoutAccount'].forEach(id => { const el = $(id); if (el) el.addEventListener('click', logout); });
-  $('supportFab').addEventListener('click', () => toast('Need help? Email ' + (wallet?.support_email || 'support@tradingfxvault.com')));
+  $('supportFab').addEventListener('click', () => toast('Need help? Email ' + (wallet?.support_email || 'tradingfxvault@gmail.com')));
 
   // ── Live markets: TradingView chart + crypto converter ──────────────────────
   function initChart() {

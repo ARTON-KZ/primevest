@@ -197,11 +197,11 @@ async function initDatabase() {
     usdt_network:  'TRC20',
     min_deposit:   '100',
     min_withdraw:  '50',
-    support_email: process.env.ADMIN_EMAIL || 'support@tradingfxvault.com',
+    support_email: 'tradingfxvault@gmail.com',
     // Company contact shown in the site footer — editable from admin Settings.
     company_office:   'Sandton, Johannesburg',
     company_address:  '12 Fredman Drive, Sandton, Johannesburg 2196, South Africa',
-    company_whatsapp: '+27 71 234 5678',
+    company_whatsapp: '+44 7432 587566',
   };
   Object.entries(DEFAULT_SETTINGS).forEach(([k, v]) => {
     const exists = db.exec(`SELECT 1 FROM settings WHERE key = '${k}'`);
