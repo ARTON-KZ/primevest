@@ -20,11 +20,27 @@
 .nav-cta-mobile { display: none; }
 .nav-burger { display: none; }
 
-/* Hero */
+/* Hero — trading-floor photo backdrop, navy-green graded */
 .hero { position: relative; padding: 70px 0 90px; overflow: hidden; }
+.hero::before {
+  content: ""; position: absolute; inset: 0; z-index: 0;
+  background:
+    /* directional scrim: darkest under the copy, opens up over the floor */
+    linear-gradient(100deg, rgba(5,11,22,0.97) 12%, rgba(5,11,22,0.86) 38%, rgba(5,11,22,0.42) 68%, rgba(5,11,22,0.62) 100%),
+    /* melt into the page top & the ticker below */
+    linear-gradient(to top, #050b16 2%, rgba(5,11,22,0.12) 30%, rgba(5,11,22,0.55) 96%),
+    /* brand color grade over the photo */
+    linear-gradient(115deg, rgba(16,88,54,0.55), rgba(8,36,58,0.5)),
+    url('../img/lander.jpg') center 30% / cover no-repeat;
+  background-blend-mode: normal, normal, multiply, normal;
+  transform-origin: 60% 40%;
+  animation: hero-drift 30s ease-in-out infinite alternate;
+  will-change: transform;
+}
+@keyframes hero-drift { from { transform: scale(1); } to { transform: scale(1.07); } }
 .hero-glow {
   position: absolute; top: -180px; left: -160px; width: 760px; height: 760px;
-  background: radial-gradient(circle, rgba(52,224,127,0.16), rgba(52,224,127,0) 62%);
+  background: radial-gradient(circle, rgba(52,224,127,0.14), rgba(52,224,127,0) 62%);
   filter: blur(8px); pointer-events: none;
 }
 .hero-inner {
@@ -299,4 +315,13 @@ a.foot-contact { color: var(--green-bright); }
   .cta { padding: 40px 22px; }
   .section { padding: 60px 0; }
   .hero { padding: 48px 0 80px; }
+  /* Copy fills the viewport width on mobile — even, heavier scrim */
+  .hero::before {
+    background:
+      linear-gradient(to top, #050b16 4%, rgba(5,11,22,0.74) 42%, rgba(5,11,22,0.84) 100%),
+      linear-gradient(rgba(5,11,22,0.52), rgba(5,11,22,0.52)),
+      linear-gradient(115deg, rgba(16,88,54,0.55), rgba(8,36,58,0.5)),
+      url('../img/lander.jpg') center 24% / cover no-repeat;
+    background-blend-mode: normal, normal, multiply, normal;
+  }
 }
