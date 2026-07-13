@@ -259,6 +259,8 @@
 .footer-cols h4 { font-family: var(--font-body); font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 14px; font-weight: 600; }
 .footer-cols a { display: block; color: var(--text-2); font-size: 14px; margin-bottom: 9px; transition: color 0.16s ease; }
 .footer-cols a:hover { color: var(--green-bright); }
+.foot-contact { color: var(--text-2); font-size: 13.5px; line-height: 1.55; margin-bottom: 9px; max-width: 240px; }
+a.foot-contact { color: var(--green-bright); }
 .footer-bottom { margin-top: 40px; padding-top: 22px; border-top: 1px solid var(--line-soft); }
 .footer-bottom p { font-size: 13px; }
 

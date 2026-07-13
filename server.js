@@ -27,6 +27,18 @@ async function main() {
 
   app.get('/api/health', (req, res) => res.json({ status: 'ok', uptime: process.uptime() }));
 
+  // Public company contact for the site footer (admin-editable in Settings).
+  app.get('/api/public/contact', (req, res) => {
+    const map = {};
+    app.locals.stmts.getAllSettings.all().forEach(r => { map[r.key] = r.value; });
+    res.json({
+      office:   map.company_office || '',
+      address:  map.company_address || '',
+      whatsapp: map.company_whatsapp || '',
+      email:    map.support_email || '',
+    });
+  });
+
   app.use('/api/auth',   require('./routes/auth'));
   app.use('/api/user',   require('./routes/user'));
   app.use('/api/wallet', require('./routes/wallet'));

@@ -76,6 +76,21 @@
   // alerts-data.js is deferred; wait for it.
   window.addEventListener('load', rotateProof);
 
+  // ── Footer contact (admin-editable in Settings → shown here) ────────────────
+  fetch((window.RACK && window.RACK.API ? window.RACK.API : '') + '/api/public/contact')
+    .then(r => r.json())
+    .then(c => {
+      const set = (id, v) => { const el = document.getElementById(id); if (el && v) el.textContent = v; };
+      set('footOffice', c.office);
+      set('footAddress', c.address);
+      const wa = document.getElementById('footWhatsapp');
+      if (wa && c.whatsapp) {
+        wa.textContent = 'WhatsApp: ' + c.whatsapp;
+        wa.href = 'https://wa.me/' + c.whatsapp.replace(/[^\d]/g, '');
+      }
+    })
+    .catch(() => { /* keep the defaults baked into the HTML */ });
+
   // ── Scroll reveals (hidden state is opt-in via .rv so no-JS still shows all) ─
   const revealEls = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window && !reduced) {

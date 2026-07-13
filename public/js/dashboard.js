@@ -63,9 +63,7 @@
     $('profileEmail').textContent = p.email;
     $('pCountry').textContent = p.country || '—';
     $('pPhone').textContent = p.phone || '—';
-    $('pWhatsapp').textContent = p.whatsapp || '—';
     $('pAddress').textContent = p.address || '—';
-    $('pOffice').textContent = p.office_location || '—';
     $('pCurrency').textContent = p.currency || 'USD';
     $('pSince').textContent = (p.created_at || '').split(' ')[0] || '—';
     $('pStatus').innerHTML = '<span class="badge green"><span class="dot"></span>Active</span>';

@@ -67,9 +67,7 @@
         password: document.getElementById('password').value,
         country: countrySel.value,
         phone,
-        whatsapp: document.getElementById('whatsapp').value.trim(),
         address: document.getElementById('address').value.trim(),
-        office_location: document.getElementById('officeLocation').value.trim(),
         currency: currencySel.value,
       };
       if (!payload.country) return showError('Please select your country.');

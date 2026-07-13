@@ -251,14 +251,14 @@
   // ── Settings ──────────────────────────────────────────────────────────────────
   async function loadSettings() {
     const s = await api.get('/api/admin/settings');
-    ['addr_btc', 'addr_eth', 'addr_usdt', 'usdt_network', 'min_deposit', 'min_withdraw', 'support_email'].forEach(k => {
+    ['addr_btc', 'addr_eth', 'addr_usdt', 'usdt_network', 'min_deposit', 'min_withdraw', 'support_email', 'company_office', 'company_address', 'company_whatsapp'].forEach(k => {
       const el = $('s_' + k); if (el) el.value = s[k] || '';
     });
   }
   $('settingsForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     const payload = {};
-    ['addr_btc', 'addr_eth', 'addr_usdt', 'usdt_network', 'min_deposit', 'min_withdraw', 'support_email'].forEach(k => { payload[k] = $('s_' + k).value; });
+    ['addr_btc', 'addr_eth', 'addr_usdt', 'usdt_network', 'min_deposit', 'min_withdraw', 'support_email', 'company_office', 'company_address', 'company_whatsapp'].forEach(k => { payload[k] = $('s_' + k).value; });
     try { const r = await api.patch('/api/admin/settings', payload); toast(r.message); } catch (err) { toast(err.message, 'error'); }
   });
 

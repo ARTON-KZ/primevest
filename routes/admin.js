@@ -7,7 +7,8 @@ const { requireAdmin } = require('../middleware/auth');
 const router = express.Router();
 
 const FIELD_PROP = { balance: 'balance', profit: 'profit', deposit: 'deposit_total', locked: 'locked' };
-const SETTING_KEYS = ['addr_btc', 'addr_eth', 'addr_usdt', 'usdt_network', 'min_deposit', 'min_withdraw', 'support_email'];
+const SETTING_KEYS = ['addr_btc', 'addr_eth', 'addr_usdt', 'usdt_network', 'min_deposit', 'min_withdraw', 'support_email',
+  'company_office', 'company_address', 'company_whatsapp'];
 
 const randomPassword = () =>
   crypto.randomBytes(10).toString('base64').replace(/[^a-zA-Z0-9]/g, '').slice(0, 10) + 'A1!';
