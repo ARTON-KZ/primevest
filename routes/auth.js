@@ -49,7 +49,15 @@ router.post('/register', async (req, res) => {
   const user = stmts.getUserByIdFull.get(result.lastInsertRowid);
 
   // Welcome email (fire-and-forget — never block signup on mail delivery).
-  sendWelcome(user).catch(err => console.error('[welcome email]', err.message));
+  // Support contacts come from settings so admin edits flow into new emails.
+  const contact = {};
+  try {
+    stmts.getAllSettings.all().forEach(r => {
+      if (r.key === 'support_email' && r.value) contact.email = r.value;
+      if (r.key === 'company_whatsapp' && r.value) contact.whatsapp = r.value;
+    });
+  } catch { /* defaults in the template cover this */ }
+  sendWelcome(user, contact).catch(err => console.error('[welcome email]', err.message));
 
   return res.status(201).json({ token: signToken(user), user: userPayload(user) });
 });
